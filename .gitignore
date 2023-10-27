@@ -1,0 +1,7 @@
+/weather-app/schema.txt
+/.env
+/client/node_modules/
+/server/weather-app
+/server/models/user.go
+/server/models/location.go
+/server/models/session.go

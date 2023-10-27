@@ -1,0 +1,111 @@
+as we are working with users table what I want you to utilize users table's id column to work with other tables
+below is the schema app
+
+TableName   columnName        dataType
+"locations"	"created_at"	"timestamp without time zone"
+"locations"	"user_id"	"integer"
+"locations"	"latitude"	"real"
+"locations"	"longitude"	"real"
+"locations"	"id"	"integer"
+"locations"	"city"	"text"
+"locations"	"updated_at"	"timestamp without time zone"
+"locations"	"retrieved_at"	"timestamp without time zone"
+"sessions"	"session_token"	"character varying"
+"sessions"	"expires_at"	"timestamp without time zone"
+"sessions"	"user_id"	"integer"
+"sessions"	"id"	"integer"
+"sessions"	"created_at"	"timestamp without time zone"
+"sessions"	"updated_at"	"timestamp without time zone"
+"users"	"email"	"text"
+"users"	"id"	"integer"
+"users"	"created_at"	"timestamp with time zone"
+"users"	"updated_at"	"timestamp without time zone"
+"users"	"firstname"	"text"
+"users"	"password"	"text"
+"weather"   "id"	"integer"
+"weather"   "user_id"	"integer"
+"weather"   "created_at" "timestamp without time zone"
+"weather"   "temp_f"	"text"
+"weather"   "location"	"text"
+"weather"   "metric"	"text"
+and as we are building login register system weather 
+1) users id column will be used in locations id as well as well as sessions  id as well as weather id
+2) as we are considirng users table's id column as a user he might search for different weather so we have to log all of them into weather table like:
+id user_id		temp_f Location created_at		metric
+   (user_id can be 			(when he searched 
+   firstname if not 			for that city 
+	then email)			in ist time)
+1 shailesh/shailu@gmail.com 43  Pune 	21:30 23-10-2023 	C
+1 shailesh/shailu@gmail.com 306 Amravati 21:30 23-10-2023 	K
+and so on
+3) with same contraints as per point 2 applied on relevant columns of locations table
+4) with some constraints we have to apply on table sessions with a minor change session_token willl be jwt generated and can be seen in browser cookie
+as well as created_at will be the time he logins or registers updated_at will be the time he logins or updates password that time. 
+expires_at = cookie created time + 60 mins and there can be multiple copy of this records for one id
+once I logged out updated_at time will be logged again
+
+
+weather-APP/
+├── server/
+│   ├── main.go
+│   ├── routes/
+│   │   ├── registerUser.go
+│   │   ├── loginUser.go
+│   │   ├── updateUser.go
+│   │   ├── deleteUser.go
+│   ├── models/
+│   │   ├── user.go
+│   │   ├── location.go
+│   │   ├── session.go
+│   │   ├── weather.go
+│   ├── database/
+│   │   ├── db.go
+│   ├── jwt/
+│   │   ├── jwt.go
+│   ├── go.mod
+│   ├── go.sum
+│   ├── .env
+├── client/
+│   ├── node_modules/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Login.js
+│   │   │   ├── Register.js
+│   │   │   ├── User.js
+│   ├── package.json
+│   ├── package-lock.json
+
+
+Foreign Key Constraints:
+
+Foreign keys are fields within a database table that establish a link to the primary key of another table.
+They enforce referential integrity by ensuring that values in the foreign key column must have matching values in the primary key column of the referenced table.
+Foreign Key in the 'weather' Table:
+
+The 'weather' table has a foreign key constraint on the 'user_id' column.
+This foreign key links the 'user_id' in the 'weather' table to the 'id' in the 'users' table.
+Cascading Delete Effect:
+
+The foreign key constraint is configured to have a cascading delete effect.
+When a record (user) in the 'users' table is deleted:
+All records in the 'weather' table that have a 'user_id' matching the deleted user's 'id' will also be deleted.
+This ensures data consistency by preventing orphaned records in the 'weather' table.
+Effects on the 'users' Table:
+
+When a user is removed from the 'users' table (e.g., due to an account deletion), the foreign key constraint ensures the following:
+Any associated weather records in the 'weather' table are automatically deleted.
+This simplifies data management by maintaining the integrity of the database.
+Effects on the 'weather' Table:
+
+For the 'weather' table, the foreign key constraint ensures that:
+Each 'user_id' must correspond to a valid 'id' in the 'users' table.
+If a user is deleted from the 'users' table, any weather records associated with that user are also removed.
+This eliminates the need to manually delete related weather records when a user is no longer present.
+Assumptions About the Future:
+
+Assuming you want to maintain data consistency, this setup is beneficial for your application.
+It allows for straightforward management of users' weather records.
+If a user's data is no longer needed, it's automatically removed, preventing unnecessary data clutter.
+These foreign key constraints can be especially useful in scenarios where user data is regularly updated or removed.
+The database ensures that user and weather data remain synchronized.
