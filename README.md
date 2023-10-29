@@ -20,6 +20,14 @@ In the server terminal, run the following command to install all necessary Go pa
 ```
 go get ./...
 ```
+After the above command run 
+```
+go mod init server
+```
+After the above command run 
+```
+go mod tidy
+```
 
 ## Setup Environment Variables
 Create a `.env` file in your root directory and add the following variables:
@@ -56,9 +64,5 @@ CREATE TABLE weather (
 ## Start Client and Server
 In the client terminal, run the following command to start the client:
 ```
-npm start
-```
-In the server terminal, run the following command to start the server:
-```
-go run main.go
+npm run dev
 ```
