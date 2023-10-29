@@ -62,7 +62,7 @@ CREATE TABLE weather (
 ```
 
 ## Start Client and Server
-In the client terminal, run the following command to start the client:
+In the client terminal, run the following command to start the project:
 ```
 npm run dev
 ```
