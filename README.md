@@ -30,7 +30,7 @@ go mod tidy
 ```
 
 ## Setup Environment Variables
-Create a `.env` file in your root directory and add the following variables:
+Create a `.env` file in your Server folder and add the following variables:
 - `PORT`
 - `DB`
 - `OPENWEATHERMAP_API_KEY`
