@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import Register from './components/Register';
 import Login from './components/Login';
 import User from './components/User';
+import Cookies from 'js-cookie';
 
 function App() {
     const [isRegistering,
@@ -20,12 +21,19 @@ function App() {
         setIsLoggedIn(true);
         setUserId(userId);
     };
+    
+    useEffect(() => {
+        const authToken = Cookies.get('auth_token');
+        if (authToken) {
+          setIsLoggedIn(true);
+        }
+      }, []);
 
     const handleLogout = () => {
         setIsLoggedIn(false);
         setUserId('');
     };
-
+    
     return (
         <div className="App">
             <header className="App-header">

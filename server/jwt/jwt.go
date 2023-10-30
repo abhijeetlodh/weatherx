@@ -3,6 +3,7 @@
 package jwt
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -64,6 +65,8 @@ func SetCookieWithJWTToken(w http.ResponseWriter, token string, expiration time.
 		HttpOnly: true,
 	}
 	http.SetCookie(w, cookie)
+	fmt.Println("Cookie Name:", cookie.Name)
+	fmt.Println("Cookie Value:", cookie.Value)
 }
 
 func VerifyJWTToken(tokenString string) (*Claims, error) {

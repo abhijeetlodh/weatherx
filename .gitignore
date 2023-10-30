@@ -1,5 +1,5 @@
 /weather-app/schema.txt
-/.env
+/server/.env
 /client/node_modules/
 /server/weather-app
 /server/models/user.go

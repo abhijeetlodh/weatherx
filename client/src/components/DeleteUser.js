@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function DeleteUser({email}) {
     const [password,
@@ -14,6 +15,10 @@ function DeleteUser({email}) {
             const response = await axios.delete(`http://localhost:8080/delete?email=${email}&password=${password}`);
             if (response.status === 200) {
                 setIsDeleted(true);
+                Cookies.remove('auth_token');
+                window
+                    .location
+                    .replace('/login'); 
             } else {
                 setError('Failed to delete the user. Please check your password.');
             }

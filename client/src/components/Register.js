@@ -1,8 +1,8 @@
 // client\src\components\Register.js
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import User from './User';
-
+import Cookies from 'js-cookie';
 function Register() {
     const [email,
         setEmail] = useState('');
@@ -16,7 +16,9 @@ function Register() {
         setRegistered] = useState(false);
     const [userId,
         setUserId] = useState(null);
-
+        useEffect(() => {
+            Cookies.remove('auth_token');
+          }, []);
     const handleSubmit = async(e) => {
         e.preventDefault();
 
